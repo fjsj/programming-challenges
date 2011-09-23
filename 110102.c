@@ -60,7 +60,6 @@ void printField(nField) {
         }
         printf("\n");
     }
-    printf("\n");
 }
 
 int main() {
@@ -90,6 +89,9 @@ int main() {
             }
         }
         
+        if (nField > 1) {
+            printf("\n");
+        }
         printField(nField);
         
         ++nField;
