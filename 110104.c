@@ -31,8 +31,8 @@ sample output below.
 
 int nLines;
 int nColumns;
-char lcdNumber[12][23];
-char lcdNumbers[8][12][23];
+char lcdNumber[23][12];
+char lcdNumbers[8][23][12];
 
 void setLcdSize(int size) {
     nLines = 2 * size + 3;
@@ -229,7 +229,7 @@ int main() {
     char strNumber[9];
     scanf("%d %s", &size, strNumber);
     
-    while (size != 0 && strcmp(strNumber, "0")) {
+    while (size != 0 || atoi(strNumber) != 0) {
         setLcdSize(size);
         int length = strlen(strNumber);
         
@@ -245,6 +245,9 @@ int main() {
                 int j;
                 for (j = 0; j < nColumns; j++) {
                     printf("%c", lcdNumbers[n][i][j]);
+                }
+                if (n < length -1) {
+                    printf(" "); //column of blanks
                 }
             }
             printf("\n");
