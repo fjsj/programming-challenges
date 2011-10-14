@@ -25,11 +25,14 @@ sample output below.
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 int nLines;
 int nColumns;
 char lcdNumber[12][23];
+char lcdNumbers[8][12][23];
 
 void setLcdSize(int size) {
     nLines = 2 * size + 3;
@@ -95,18 +98,17 @@ void drawLastRightColumn() {
     drawLastColumn(nColumns - 1);
 }
 
-void printLcd() {
+void printLcd(int position) {
     int i;
     for (i = 0; i < nLines; i++) {
         int j;
         for (j = 0; j < nColumns; j++) {
-            printf("%c", lcdNumber[i][j]);
+            lcdNumbers[position][i][j] = lcdNumber[i][j];
         }
-        printf("\n");
     }    
 }
 
-void printZero() {
+void printZero(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstLeftColumn();
@@ -114,56 +116,56 @@ void printZero() {
     drawLastLeftColumn();
     drawLastRightColumn();
     drawLastLine();
-    printLcd();
+    printLcd(position);
 }
 
-void printOne() {
+void printOne(int position) {
     clearLcd();
     drawFirstRightColumn();
     drawLastRightColumn();
-    printLcd();
+    printLcd(position);
 }
 
-void printTwo() {
+void printTwo(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstRightColumn();
     drawMiddleLine();
     drawLastLeftColumn();
     drawLastLine();
-    printLcd();
+    printLcd(position);
 }
 
-void printThree() {
+void printThree(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstRightColumn();
     drawMiddleLine();
     drawLastRightColumn();
     drawLastLine();
-    printLcd();
+    printLcd(position);
 }
 
-void printFour() {
+void printFour(int position) {
     clearLcd();
     drawFirstLeftColumn();
     drawFirstRightColumn();
     drawMiddleLine();
     drawLastRightColumn();
-    printLcd();
+    printLcd(position);
 }
 
-void printFive() {
+void printFive(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstLeftColumn();
     drawMiddleLine();
     drawLastRightColumn();
     drawLastLine();
-    printLcd();
+    printLcd(position);
 }
 
-void printSix() {
+void printSix(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstLeftColumn();
@@ -171,18 +173,18 @@ void printSix() {
     drawLastLeftColumn();
     drawLastRightColumn();
     drawLastLine();
-    printLcd();
+    printLcd(position);
 }
 
-void printSeven() {
+void printSeven(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstRightColumn();
     drawLastRightColumn();
-    printLcd();
+    printLcd(position);
 }
 
-void printEight() {
+void printEight(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstLeftColumn();
@@ -191,10 +193,10 @@ void printEight() {
     drawLastLeftColumn();
     drawLastRightColumn();
     drawLastLine();
-    printLcd();
+    printLcd(position);
 }
 
-void printNine() {
+void printNine(int position) {
     clearLcd();
     drawFirstLine();
     drawFirstLeftColumn();
@@ -202,19 +204,54 @@ void printNine() {
     drawMiddleLine();
     drawLastRightColumn();
     drawLastLine();
-    printLcd();
+    printLcd(position);
+}
+
+void printNumber(int n, int position) {
+    void (*functions[10]) (int position) = {
+    printZero,
+    printOne,
+    printTwo,
+    printThree,
+    printFour,
+    printFive,
+    printSix,
+    printSeven,
+    printEight,
+    printNine
+    };
+
+    functions[n](position);
 }
 
 int main() {
-    setLcdSize(2);
-    printOne();
-    printTwo();
-    printThree();
-    printFour();
-    printFive();
-    printSix();
-    printSeven();
-    printEight();
-    printNine();
+    int size = 0;
+    char strNumber[9];
+    scanf("%d %s", &size, strNumber);
+    
+    while (size != 0 && strcmp(strNumber, "0")) {
+        setLcdSize(size);
+        int length = strlen(strNumber);
+        
+        int i;
+        for (i = 0; i < length; i++) {
+            int n = strNumber[i] - '0';
+            printNumber(n, i);
+        }
+        
+        for (i = 0; i < nLines; i++) {
+            int n;
+            for (n = 0; n < length; n++) {
+                int j;
+                for (j = 0; j < nColumns; j++) {
+                    printf("%c", lcdNumbers[n][i][j]);
+                }
+            }
+            printf("\n");
+        }
+        printf("\n");
+
+        scanf("%d %s", &size, strNumber);
+    }
     return 0;
 }
