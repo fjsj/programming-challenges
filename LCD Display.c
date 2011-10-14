@@ -22,6 +22,33 @@ the digits with blanks, including the last digit. There must be exactly one colu
 blanks between two digits.
 Output a blank line after each number. You will find an example of each digit in the
 sample output below.
+
+Sample Input
+
+2 12345
+3 67890
+0 0
+
+Sample Output
+
+      --   --        -- 
+   |    |    | |  | |   
+   |    |    | |  | |   
+      --   --   --   -- 
+   | |       |    |    |
+   | |       |    |    |
+      --   --        -- 
+
+ ---   ---   ---   ---   --- 
+|         | |   | |   | |   |
+|         | |   | |   | |   |
+|         | |   | |   | |   |
+ ---         ---   ---       
+|   |     | |   |     | |   |
+|   |     | |   |     | |   |
+|   |     | |   |     | |   |
+ ---         ---   ---   --- 
+
 */
 
 #include <stdio.h>
@@ -246,7 +273,7 @@ int main() {
                 for (j = 0; j < nColumns; j++) {
                     printf("%c", lcdNumbers[n][i][j]);
                 }
-                if (n < length -1) {
+                if (n < length - 1) {
                     printf(" "); //column of blanks
                 }
             }
